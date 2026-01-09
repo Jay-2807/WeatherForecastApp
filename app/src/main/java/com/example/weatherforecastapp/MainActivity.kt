@@ -29,6 +29,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -43,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -92,6 +94,7 @@ fun Greeting(modifier: Modifier,viewModel: WeatherApiViewModel = viewModel()) {
     val context = LocalContext.current
 
     var city by remember { mutableStateOf("") }
+    var cityName by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -127,9 +130,11 @@ fun Greeting(modifier: Modifier,viewModel: WeatherApiViewModel = viewModel()) {
 
             IconButton(
                 onClick = {
+                    cityName = ""
                     if (city.isNotEmpty()) {
                         viewModel.fetchWeather(city.lowercase())
                         city = ""
+
                     } else {
                         Toast.makeText(
                             context,
@@ -152,6 +157,16 @@ fun Greeting(modifier: Modifier,viewModel: WeatherApiViewModel = viewModel()) {
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = cityName.replaceFirstChar { it.uppercase() },
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.Black
+        )
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -180,6 +195,7 @@ fun Greeting(modifier: Modifier,viewModel: WeatherApiViewModel = viewModel()) {
                 LazyColumn {
                     items(viewModel.weatherList) { item ->
                         WeatherItem(item)
+                        cityName = item.city
                     }
                 }
             }
