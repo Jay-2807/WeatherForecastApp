@@ -1,6 +1,7 @@
 package com.example.weatherforecastapp.data.repo
 
 import android.content.Context
+import com.example.weatherforecastapp.R
 import com.example.weatherforecastapp.data.api.WeatherApi
 import com.example.weatherforecastapp.data.db.WeatherDao
 import com.example.weatherforecastapp.data.model.WeatherApiDbModel
@@ -19,7 +20,7 @@ class WeatherApiRepo(
 
             try {
                 val response = api.getForecast(
-                    apiKey = "9755fa2427ff46cd8f2160357260801",
+                    apiKey = context.getString(R.string.weather_api_key),
                     city = city,
                     days = 3
                 )
