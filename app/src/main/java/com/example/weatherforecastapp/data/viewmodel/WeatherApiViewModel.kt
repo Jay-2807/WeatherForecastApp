@@ -30,9 +30,10 @@ class WeatherApiViewModel(
 
             try {
                 var result  = repository.getWeather(city)
+                println("Weather api fetched wrong $result")
                 if (result.isEmpty()) {
                     errorMessage =
-                        "No offline data available for \"$city\".\nConnect to the internet and try again."
+                        "No offline data available for \"$city\".Connect to the internet and try again."
 
                 } else {
                     weatherList = result

@@ -26,7 +26,7 @@ class WeatherApiRepo(
 
                 val data = response.forecast.forecastday.map {
                     WeatherApiDbModel(
-                        city = city,
+                        city = city.lowercase(),
                         date = it.date,
                         temp = it.day.avgtemp_c,
                         condition = it.day.condition.text
@@ -34,9 +34,12 @@ class WeatherApiRepo(
                 }
 
                 dao.insertAll(data)
+                println("Exception $data")
                 data
 
+
             } catch (e: Exception) {
+                println("Exception $e")
                 dao.getWeatherByCity(city)
             }
 
